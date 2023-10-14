@@ -19,9 +19,22 @@ data = data.head(100)
 st.sidebar.title('Sidebar')
 
 # Add buttons to the sidebar for selecting options
-option1_button = st.sidebar.button('Descriptive Analytics')
-option2_button = st.sidebar.button('Excel Regression')
-option3_button = st.sidebar.button('Python Regression')
+with st.sidebar:
+    # Injecting custom CSS to make buttons full width
+    st.markdown(
+        """
+        <style>
+            div[data-baseweb="button"] {
+                width: 100%;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    option1_button = st.button('Descriptive Analytics', key='btn1')
+    option2_button = st.button('Excel Regression', key='btn2')
+    option3_button = st.button('Python Regression', key='btn3')
 
 # Determine the selected option based on which button is clicked
 if option1_button:
@@ -60,20 +73,19 @@ if selected_option == 'Data Set':
     # Box Plot
     box_fig = px.box(data, x='Hours Studied', y='Performance Index', title='Box Plot of Hours Studied vs. Performance Index')
     st.plotly_chart(box_fig)
+
 elif selected_option == 'Excel Regression':
     # Add code for the "Excel Regression" option
-    st.write("You selected Excel Regression. Add your Excel regression code here.")
+    st.header("Excel Regression")
     image_path1 = "images/HoursStudied_PreviousScores.png"
-    st.image(image_path1, caption='Your Image Caption', use_column_width=True)
+    st.image(image_path1, caption='Regression Analysis for the Relationship Between Hours Studied, Previous Scores and Performance Index', use_column_width=True)
 
     image_path2 = "images/PreviousScores_Sample Question.png"
-    st.image(image_path2, caption='Your Image Caption', use_column_width=True)
+    st.image(image_path2, caption='Regression Analysis for the Previous Scores, Sample Question Papers Practiced and Performance Index', use_column_width=True)
 
 elif selected_option == 'Python Regression':
     # Add code for the "Python Regression" option
-    st.write("You selected Python Regression. Add your Python regression code here.")
     st.header("Python Regression")
-
 
     # Define the independent variables
     X3 = data['Previous Scores']
@@ -131,7 +143,6 @@ elif selected_option == 'Python Regression':
                     height=900
     )
 
-    st.write("keisamae")
     # Display the plot in Streamlit
     st.plotly_chart(fig)
 
@@ -192,14 +203,9 @@ elif selected_option == 'Python Regression':
                     height=900
     )
 
-    st.write("keisamae")
     # Display the plot in Streamlit
     st.plotly_chart(fig)
 
-
-
-    
-
 else:
     # Handle the case when no option is selected
-    st.header("Midterm Exam Week na!")
+    st.header("Student Performance")
